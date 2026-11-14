@@ -1,11 +1,19 @@
+import os
 import streamlit as st
 import json
 import re
 from dotenv import load_dotenv
 from crewai import Agent, Task, Crew
 
-# Carrega as variáveis do arquivo .env (GEMINI_API_KEY, etc.)
+# Carrega as variáveis do arquivo .env (para rodar localmente)
 load_dotenv()
+
+# Repassa a chave do Streamlit Cloud (Secrets) para o ambiente do CrewAI
+try:
+    if "GEMINI_API_KEY" in st.secrets:
+        os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    pass
 
 def ler_jsonc(caminho):
     with open(caminho, "r", encoding="utf-8") as f:
